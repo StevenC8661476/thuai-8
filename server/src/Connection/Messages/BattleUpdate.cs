@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Thuai.Server.Connection;
@@ -20,7 +21,7 @@ public record BattleUpdateMessage : Message
     public record Player
     {
         [JsonPropertyName("token")]
-        public string Token { get; init; }
+        public required string Token { get; init; }
 
         [JsonPropertyName("weapon")]
         public List<weapon> Weapon { get; init; } = new();
@@ -175,7 +176,7 @@ public record BattleUpdateMessage : Message
             public position start { get; init; } = new();
 
             [JsonPropertyName("end")]
-            public position End { get; init; }
+            public required position End { get; init; }
         }
     }
     public record weapon
