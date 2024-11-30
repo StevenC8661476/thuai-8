@@ -76,10 +76,10 @@ public record BattleUpdateMessage : Message
         public List<target> Targets { get; init; } = new();
     }
 
-    public record DestoryEvent : events
+    public record DestroyEvent : events
     {
         [JsonPropertyName("messageType")]
-        public override string MessageType { get; init; } = "DESTORY_EVENT";
+        public override string MessageType { get; init; } = "DESTROY_EVENT";
 
         [JsonPropertyName("target")]
         public target Target { get; init; } = new();
@@ -99,7 +99,7 @@ public record BattleUpdateMessage : Message
                 "APPEAR_EVENT" => JsonSerializer.Deserialize<AppearEvent>(jsonObject.GetRawText(), options),
                 "BOB_EVENT" => JsonSerializer.Deserialize<BobEvent>(jsonObject.GetRawText(), options),
                 "COLLISION_EVENT" => JsonSerializer.Deserialize<CollisionEvent>(jsonObject.GetRawText(), options),
-                "DESTORY_EVENT" => JsonSerializer.Deserialize<DestoryEvent>(jsonObject.GetRawText(), options),
+                "DESTROY_EVENT" => JsonSerializer.Deserialize<DestroyEvent>(jsonObject.GetRawText(), options),
                 _ => throw new NotSupportedException(),
             };
         }
