@@ -1,4 +1,4 @@
-using System.Collections;
+using Thuai.Server.Utility;
 
 namespace Thuai.Server.Test.UnitTest;
 
@@ -8,11 +8,11 @@ public class TaskManagerTests
 
     public TaskManagerTests()
     {
-        Utility.Tools.LogHandler.Initialize(
-            new Utility.Config.LogSettings()
+        Tools.LogHandler.Initialize(
+            new Config.LogSettings()
             {
-                Target = Utility.Config.LogSettings.LogTarget.Console,
-                MinimumLevel = Utility.Config.LogSettings.LogLevel.Verbose,
+                Target = Config.LogSettings.LogTarget.Console,
+                MinimumLevel = Config.LogSettings.LogLevel.Verbose,
             }
         );
         Console.SetOut(_consoleOutput);
@@ -23,7 +23,7 @@ public class TaskManagerTests
     public void CreateTask_ShouldCreateTask(Action action, string description)
     {
         // Act
-        Task task = Utility.Tools.TaskManager.CreateTask(action, description);
+        Task task = Tools.TaskManager.CreateTask(action, description);
 
         // Assert
         Assert.NotNull(task);
@@ -58,7 +58,7 @@ public class TaskManagerTests
         string description = "Test task";
 
         // Act
-        Task task = Utility.Tools.TaskManager.CreateTask(expectedAction, description);
+        Task task = Tools.TaskManager.CreateTask(expectedAction, description);
         task.Start();
         task.Wait();
 
@@ -74,7 +74,7 @@ public class TaskManagerTests
         string description = "Test task";
 
         // Act
-        Task task = Utility.Tools.TaskManager.CreateTask(action, description);
+        Task task = Tools.TaskManager.CreateTask(action, description);
         task.Start();
         try
         {
@@ -88,5 +88,33 @@ public class TaskManagerTests
         // Assert
         var consoleOutput = _consoleOutput.ToString();
         Assert.Contains("Task crashed", consoleOutput);
+    }
+
+    [Theory]
+    [ClassData(typeof(TestActionData))]
+    public void CreateTask_ShouldCancelTask(Action action)
+    {
+        // Arrange
+        string description = "Test task";
+        Action<CancellationToken> expectedAction = (token) =>
+        {
+            while (!token.IsCancellationRequested)
+            {
+                action();
+            }
+        };
+
+        // Act
+        TaskWithCancellation taskWithCancellation = Tools.TaskManager.CreateTaskWithCancellation(
+            expectedAction, description
+        );
+
+        taskWithCancellation.Start();
+        Task.Delay(100).Wait();
+        taskWithCancellation.Cancel();
+        Task.Delay(100).Wait();
+
+        // Assert
+        Assert.Contains("Task cancelled", _consoleOutput.ToString());
     }
 }
