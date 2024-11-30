@@ -1,6 +1,4 @@
-namespace Thuai.GameServer.MapGenerator;
-using System;
-using System.Collections.Generic;
+namespace Thuai.Server.GameLogic;
 
 class Map
 {
@@ -12,10 +10,24 @@ class Map
         Height = height;
         GenerateRandomWalls();
     }
+
     public int Width { get; }
     public int Height { get; }
     public List<Wall> Walls { get; } = new List<Wall>();
-    private static readonly Random random = new Random();
+
+    private static readonly Random _random = new Random();
+
+    public static List<Map> GenerateMaps(int count, int width, int height)
+    {
+        var maps = new List<Map>();
+        for (var i = 0; i < count; i++)
+        {
+            var map = new Map(width, height);
+            maps.Add(map);
+        }
+        return maps;
+    }
+
     private void GenerateRandomWalls()
     {
         // lines on the path, should be maintained
@@ -74,7 +86,7 @@ class Map
             return new Point(-1, -1);
         }
         // random select a direction
-        int index = random.Next(validDirections.Count);
+        int index = _random.Next(validDirections.Count);
         Point newPoint = validDirections[index];
         closedPoints.Add(newPoint);  // add the new point to the closedPoints
         lines.Add(new Line(currentPoint.X, currentPoint.Y, newPoint.X, newPoint.Y));  // add the line to the lines
@@ -106,21 +118,7 @@ class Map
     }
 }
 
-class MapGenerator
-{
-    public List<Map> GenerateMaps(int count, int width, int height)
-    {
-        var maps = new List<Map>();
-        for (var i = 0; i < count; i++)
-        {
-            var map = new Map(width, height);
-            maps.Add(map);
-        }
-        return maps;
-    }
-}
-
-struct Line 
+struct Line
 {
     public Line(int x1, int y1, int x2, int y2)
     {
@@ -154,7 +152,7 @@ struct Line
     public int Y2 { get; }
 }
 
-struct Point 
+struct Point
 {
     public Point(int x, int y)
     {

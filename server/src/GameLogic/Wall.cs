@@ -1,4 +1,4 @@
-namespace Thuai.GameServer.MapGenerator;
+namespace Thuai.Server.GameLogic;
 
 class Wall 
 {

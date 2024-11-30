@@ -1,12 +1,8 @@
-using Thuai.GameServer.MapGenerator;
-
 namespace Thuai.Server.GameLogic;
 
 public partial class Battle
 {
     private Map? Map = null;
-
-    private MapGenerator MapGenerator = new();
 
     /// <summary>
     /// If map is null, generate a map.
@@ -14,8 +10,7 @@ public partial class Battle
     /// <returns>If the map available.</returns>
     private bool GenerateMap()
     {
-        MapGenerator mapGenerator = new();
-        Map = mapGenerator.GenerateMaps(1, 10, 10)[0];
+        Map = Map.GenerateMaps(1, 10, 10)[0];
         return false;
     }
 
