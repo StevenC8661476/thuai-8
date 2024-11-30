@@ -39,8 +39,8 @@ public class BuffSelector
     /// <summary>
     /// Three types of buffs.
     /// </summary>
-    private Buff[] OffensiveBuff = new Buff[]
-    {
+    private Buff[] OffensiveBuff =
+    [
         Buff.BULLET_COUNT,
         Buff.BULLET_COUNT,
         Buff.BULLET_SPEED,
@@ -49,9 +49,9 @@ public class BuffSelector
         Buff.DAMAGE,
         Buff.LASER,
         Buff.ANTI_ARMOR
-    };
-    private Buff[] DefensiveBuff = new Buff[]
-    {
+    ];
+    private Buff[] DefensiveBuff =
+    [
         Buff.ARMOR,
         Buff.ARMOR,
         Buff.ARMOR,
@@ -60,9 +60,9 @@ public class BuffSelector
         Buff.GRAVITY,
         Buff.DODGE,
         Buff.DODGE
-    };
-    private Buff[] UtilityBuff = new Buff[]
-    {
+    ];
+    private Buff[] UtilityBuff =
+    [
         Buff.BLACK_OUT,
         Buff.SPEED_UP,
         Buff.FLASH,
@@ -71,7 +71,7 @@ public class BuffSelector
         Buff.KAMUI,
         Buff.MISSILE,
         Buff.TRAP
-    };
+    ];
     private int Round = 1;
 
     /// <summary>
