@@ -3,7 +3,7 @@ using Thuai.Server.GameController;
 
 namespace Thuai.Server.GameLogic;
 
-public partial class Game 
+public partial class Game
 {
 
     #region Fields and properties
@@ -27,7 +27,7 @@ public partial class Game
     /// <returns>If the adding succeeds.</returns>
     public bool AddPlayer(Player player)
     {
-        if (Stage != GameStage.Waiting) 
+        if (Stage != GameStage.Waiting)
         {
             _logger.Error("Cannot add player: The game is already started.");
             return false;
@@ -35,7 +35,7 @@ public partial class Game
 
         try
         {
-            lock(_lock)
+            lock (_lock)
             {
                 AllPlayers.Add(player);
                 Scoreboard.Add(player, 0);
@@ -59,7 +59,7 @@ public partial class Game
     {
         try
         {
-            lock(_lock)
+            lock (_lock)
             {
                 Scoreboard.Remove(player);
                 AllPlayers.Remove(player);
@@ -72,5 +72,44 @@ public partial class Game
         }
     }
 
+    /// <summary>
+    /// Get the player with the highest score. Null if more than one players
+    /// have the highest score.
+    /// </summary>
+    /// <returns>The reference of player with the highest score.</returns>
+    /// <exception cref="Exception">Never thrown, unless some error occurs.</exception>
+    public Player? GetHighScorePlayer()
+    {
+        int highScore = -1;
+        Player? highScorePlayer = null;
+        foreach (Player player in AllPlayers)
+        {
+            if (Scoreboard[player] > highScore)
+            {
+                highScore = Scoreboard[player];
+                highScorePlayer = player;
+            }
+        }
+        int highScoreCount = 0;
+        foreach (Player player in AllPlayers)
+        {
+            if (Scoreboard[player] == highScore)
+            {
+                ++highScoreCount;
+            }
+        }
+        if (highScoreCount == 1) 
+        {
+            return highScorePlayer;
+        } 
+        else if (highScoreCount > 1) 
+        {
+            return null;
+        } 
+        else 
+        {
+            throw new Exception("This should NOT be thrown!");
+        }
+    }
     #endregion
 }
