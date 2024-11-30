@@ -46,7 +46,7 @@ public record BattleUpdateMessage : Message
     public record AppearEvent : events
     {
         [JsonPropertyName("messageType")]
-        public override string eventType { get; init; } = "APPEAR_EVENT";
+        public override string MessageType { get; init; } = "APPEAR_EVENT";
 
         [JsonPropertyName("target")]
         public target Target { get; init; } = new(); 
