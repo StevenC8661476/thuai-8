@@ -19,7 +19,7 @@ public partial class AgentServer
     {
         try
         {
-            Message? message = JsonSerializer.Deserialize<Message>(text)
+            Messages.Message? message = JsonSerializer.Deserialize<Messages.Message>(text)
                                ?? throw new Exception("failed to deserialize Message");
 
             _logger.Debug(

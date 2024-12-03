@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Thuai.Server.Connection;
+namespace Thuai.Server.Connection.Messages;
 
 public record GameStatisticsMessage : Message
 {
