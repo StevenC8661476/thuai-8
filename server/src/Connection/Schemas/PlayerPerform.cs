@@ -37,7 +37,7 @@ public class PlayerPerformConverter : JsonConverter<PlayerPerform>
         using var jsonDocument = JsonDocument.ParseValue(ref reader);
         var root = jsonDocument.RootElement;
         string messageType = root.GetProperty("messageType").GetString() ??
-            throw new JsonException("messageType is not found in the JSON object.");
+            throw new JsonException("Key \"messageType\" is not found in the JSON object.");
 
         return messageType switch
         {
@@ -68,7 +68,7 @@ public class PlayerPerformConverter : JsonConverter<PlayerPerform>
             "GET_AVAILABLE_BUFFS" => JsonSerializer.Deserialize<GetAvailableBuffs>(root.GetRawText()) ??
                 throw new JsonException("Failed to deserialize GET_AVAILABLE_BUFFS message."),
 
-            _ => throw new JsonException($"Unknown message type: {messageType}")
+            _ => throw new JsonException($"Unknown action type: {(messageType == "" ? "[Empty]" : messageType)}")
         };
     }
 
@@ -82,6 +82,7 @@ public class PlayerPerformConverter : JsonConverter<PlayerPerform>
 
 #region BaseClass
 
+[JsonConverter(typeof(PlayerPerformConverter))]
 public record PlayerPerform
 {
     // This class is used to deserialize the message from the client

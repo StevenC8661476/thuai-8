@@ -2,7 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Thuai.Server.Connection.Schemas;
 
-public record Laser
+using Laser = List<LaserItem>;
+
+public record LaserItem
 {
     [JsonPropertyName("start")]
     public required Position Start { get; init; }

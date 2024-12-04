@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Thuai.Server.Connection.Schemas;
 
+using Laser = List<LaserItem>;
+
 using Wall = PositionInt;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
